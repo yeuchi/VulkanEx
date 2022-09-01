@@ -24,3 +24,6 @@ https://github.com/googlesamples/android-vulkan-tutorials
 
 1. Get started with GameActivity \
 https://developer.android.com/games/agdk/game-activity/get-started
+
+2. OFF File Format, Wiki \
+https://en.wikipedia.org/wiki/OFF_(file_format)
