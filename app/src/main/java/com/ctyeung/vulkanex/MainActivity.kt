@@ -18,11 +18,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        binding = ActivityMainBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//
-//        // Example of a call to a native method
-//        binding.sampleText.text = stringFromJNI()
+        findViewById<Button>(R.id.btn_triangle)?.apply {
+            setOnClickListener {
+                val intent = Intent(applicationContext, TriangleActivity::class.java)
+                startActivity(intent)
+            }
+        }
 
         findViewById<Button>(R.id.btn_load)?.apply {
             setOnClickListener {
