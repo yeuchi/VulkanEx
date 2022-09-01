@@ -43,7 +43,6 @@ class OffDecoderActivity : GameActivity() {
         while (r.readLine().also { line = it } != null) {
             line?.let {
                 list.add(it)
-                list.add("\n")
             }
         }
         return list.toList()
@@ -51,7 +50,7 @@ class OffDecoderActivity : GameActivity() {
 
     private fun render() {
         /*
-         * pass it to ndk 
+         * pass it to ndk
          */
     }
 }

@@ -26,13 +26,13 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btn_load)?.apply {
             setOnClickListener {
+                /*
+                 * TODO add mime type to filter OFF
+                 */
                 val intent = Intent()
                     .setType("*/*")
                     .setAction(Intent.ACTION_GET_CONTENT)
 
-                /*
-                 * https://stackoverflow.com/questions/49697630/open-file-choose-in-android-app-using-kotlin
-                 */
                 startActivityForResult(Intent.createChooser(intent, "Select a file"), 111)
             }
         }
