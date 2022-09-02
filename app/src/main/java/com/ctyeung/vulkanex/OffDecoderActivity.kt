@@ -16,14 +16,17 @@ class OffDecoderActivity : GameActivity() {
         }
     }
 
+    var off = OffDecoder()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val uri = getOffUri(getIntent())
         uri?.apply {
-            val list = loadOffFile(uri)
-            if (list.isNotEmpty()) {
-                render()
+            if(off.loadFrom(uri, contentResolver)) {
+                off.vertices?.let {
+                    render(it)
+                }
             }
         }
     }
@@ -35,22 +38,9 @@ class OffDecoderActivity : GameActivity() {
         return null
     }
 
-    private fun loadOffFile(uri:Uri):List<String> {
-        val `in`: InputStream? = contentResolver.openInputStream(uri)
-        val r = BufferedReader(InputStreamReader(`in`))
-        var list = mutableListOf<String>()
-        var line: String?
-        while (r.readLine().also { line = it } != null) {
-            line?.let {
-                list.add(it)
-            }
-        }
-        return list.toList()
-    }
-
-    private fun render() {
+    private fun render(intArray: FloatArray) {
         /*
-         * pass it to ndk
+         * TODO pass it to ndk
          */
     }
 }
