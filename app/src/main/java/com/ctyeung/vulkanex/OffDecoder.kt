@@ -30,17 +30,28 @@ class OffDecoder {
         }
 
     private var _vertices: FloatArray? = null
-
     val vertices: FloatArray?
         get() {
             return _vertices
         }
 
-    private fun preloadInit() {
-        _numEdges = 0
-        _numVertices = 0
-        _numFaces = 0
-    }
+    private var _faces = ArrayList<OffFace>()
+    val faces: IntArray?
+        get() {
+            /*
+             * TODO Tesselation needed
+             *  or some other format of array
+             */
+            return null
+        }
+
+    val facesNormal: FloatArray?
+        get() {
+            /*
+             * compute cross product of face plane
+             */
+            return null
+        }
 
     fun loadFrom(uri: Uri, contentResolver: ContentResolver): Boolean {
         val `in`: InputStream? = contentResolver.openInputStream(uri)
@@ -51,10 +62,18 @@ class OffDecoder {
             parseOFFHeader(r)
             parseMeshInfo(r)
             parseVertices(r)
+            parseFaces(r)
+            return true
         } catch (e: Exception) {
             Log.e("OffDecoder", e.toString())
+            return false
         }
-        return true
+    }
+
+    private fun preloadInit() {
+        _numEdges = 0
+        _numVertices = 0
+        _numFaces = 0
     }
 
     private fun removeComment(string: String?): String? {
@@ -96,25 +115,62 @@ class OffDecoder {
         throw Exception("missing metric info")
     }
 
+    /*
+     * One line for each colored vertex:
+     * x y z r g b a
+     * for vertex 0, 1, ..., vertex_count-1
+     */
     private fun parseVertices(r: BufferedReader): Boolean {
-        _vertices = FloatArray(_numVertices)
+        _vertices = FloatArray(_numVertices * 3)
         _vertices?.apply {
-
             var index = 0
             var line: String?
             while (r.readLine().also { line = it } != null &&
                 index < _numVertices) {
                 val filtered = removeComment(line)
                 filtered?.let {
+                    /*
+                     * TODO handle optional RGB color
+                     */
                     val xyz = it.split(' ')
                     for (i in 0..2) {
-                        this[index] = xyz.get(i).toFloat()
-                        index++
+                        this[index * 3 + i] = xyz.get(i).toFloat()
                     }
+                    index++
                 }
             }
             return true
         }
-        throw Exception("failed allocation")
+        throw Exception("failed allocate vertices")
+    }
+
+    /*
+     * One line for each polygonal face:
+     * n v1 v2 ... vn r g b a,
+     * the number of vertices, and the vertex indices for each face.
+     */
+    private fun parseFaces(r: BufferedReader): Boolean {
+        _faces.clear()
+        var index = 0
+        var line: String?
+        while (r.readLine().also { line = it } != null &&
+            index < _numFaces) {
+            val filtered = removeComment(line)
+            filtered?.let {
+                /*
+                 * TODO handle optional RGB color
+                 *  TODO handle faces with more than 3 edges
+                 */
+                val abc = it.split(' ')
+                val count = abc[0].toInt()
+                val list = IntArray(count)
+                for (i in 0 until count - 1) {
+                    list[i] = abc.get(i).toInt()
+                }
+                _faces.add(OffFace(count, list))
+                index ++
+            }
+        }
+        return true
     }
 }
