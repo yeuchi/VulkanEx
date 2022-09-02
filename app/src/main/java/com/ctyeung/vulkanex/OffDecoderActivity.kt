@@ -16,16 +16,18 @@ class OffDecoderActivity : GameActivity() {
         }
     }
 
-    var off = OffDecoder()
+    private var off = OffDecoder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val uri = getOffUri(getIntent())
         uri?.apply {
-            if(off.loadFrom(uri, contentResolver)) {
-                off.vertices?.let {
-                    render(it)
+            if (off.loadFrom(uri, contentResolver)) {
+                if (off.numVertices > 0) {
+                    off.vertices?.let {
+                        render(it)
+                    }
                 }
             }
         }

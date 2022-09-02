@@ -11,9 +11,23 @@ import java.io.InputStreamReader
 import java.lang.Exception
 
 class OffDecoder {
-    var numVertices = 0
-    var numFaces = 0
-    var numEdges = 0
+    private var _numVertices: Int = 0
+    val numVertices: Int
+        get() {
+            return _numVertices
+        }
+
+    private var _numFaces: Int = 0
+    val numFaces: Int
+        get() {
+            return _numFaces
+        }
+
+    private var _numEdges: Int = 0
+    val numEdges: Int
+        get() {
+            return _numEdges
+        }
 
     private var _vertices: FloatArray? = null
 
@@ -67,9 +81,9 @@ class OffDecoder {
         val line2 = r.readLine()
         val metrics = line2.split(' ')
         if (metrics.size == 3) {
-            numVertices = metrics.get(0).toIntOrNull() ?: return false
-            numFaces = metrics.get(1).toIntOrNull() ?: return false
-            numEdges = metrics.get(2).toIntOrNull() ?: return false
+            _numVertices = metrics.get(0).toIntOrNull() ?: return false
+            _numFaces = metrics.get(1).toIntOrNull() ?: return false
+            _numEdges = metrics.get(2).toIntOrNull() ?: return false
             return true
         }
         return false
@@ -77,13 +91,13 @@ class OffDecoder {
 
     private fun parseVertices(r: BufferedReader): Boolean {
         try {
-            _vertices = FloatArray(numVertices+1)
+            _vertices = FloatArray(_numVertices + 1)
             _vertices?.apply {
 
                 var index = 0
                 var line: String?
                 while (r.readLine().also { line = it } != null &&
-                    index < numVertices) {
+                    index < _numVertices) {
                     line?.let {
                         /*
                          * TODO Filter comment #
@@ -96,8 +110,7 @@ class OffDecoder {
                 }
                 return true
             }
-        }
-        catch (e:Exception) {
+        } catch (e: Exception) {
             Log.e("OffDecoder", e.toString())
         }
         return false
