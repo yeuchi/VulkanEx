@@ -78,7 +78,18 @@ class OffDecoder {
 
     private fun removeComment(string: String?): String? {
         string?.split('#')?.apply {
-            return this[0]
+            /*
+             * if # found or not, check for content
+             * 1. line has comment -> check content before #
+             * 1.5. no content before # -> return null
+             * 2. blank line -> return null
+             * 3. real content -> return content
+             */
+            return if (this[0].isEmpty()) {
+                return null
+            } else {
+                this[0]
+            }
         }
         return null
     }
@@ -133,8 +144,16 @@ class OffDecoder {
                      * TODO handle optional RGB color
                      */
                     val xyz = it.split(' ')
-                    for (i in 0..2) {
-                        this[index * 3 + i] = xyz.get(i).toFloat()
+                    var count = 0
+                    for (i in xyz.indices) {
+                        val vertex = xyz.get(i)
+                        if (vertex.isNotEmpty() && count < 3) {
+                            this[index * 3 + count] = vertex.toFloat()
+                            count++
+                        }
+                    }
+                    if (count != 3) {
+                        throw Exception("invalid vertex count")
                     }
                     index++
                 }
@@ -157,18 +176,50 @@ class OffDecoder {
             index < _numFaces) {
             val filtered = removeComment(line)
             filtered?.let {
-                /*
-                 * TODO handle optional RGB color
-                 *  TODO handle faces with more than 3 edges
-                 */
+
                 val abc = it.split(' ')
-                val count = abc[0].toInt()
-                val list = IntArray(count)
-                for (i in 0 until count - 1) {
-                    list[i] = abc.get(i).toInt()
+                var entryCount = 0
+                var faceVertexCount = 0
+                var list: IntArray? = null
+
+                for (i in abc.indices) {
+                    val num = abc.get(i)
+                    if (num.isNotEmpty()) {
+                        when {
+                            entryCount == 0 -> {
+                                faceVertexCount = num.toIntOrNull()
+                                    ?: throw Exception("invalid face vertex count")
+                                entryCount++
+                                list = IntArray(faceVertexCount)
+                            }
+
+                            entryCount in 1 until faceVertexCount + 1 -> {
+                                list?.apply {
+                                    this[entryCount - 1] = num.toIntOrNull()
+                                        ?: throw Exception("invalid face vertex count")
+                                    entryCount++
+                                }
+                            }
+
+                            else -> {
+                                /*
+                                 * TODO handle optional RGB color
+                                 *  TODO handle faces with more than 3 edges
+                                 */
+                            }
+                        }
+                    }
                 }
-                _faces.add(OffFace(count, list))
-                index ++
+                if (entryCount != faceVertexCount + 1) {
+                    throw Exception("invalid face entries")
+                }
+                _faces.add(
+                    OffFace(
+                        entryCount,
+                        list ?: throw Exception("missing face entries")
+                    )
+                )
+                index++
             }
         }
         return true
