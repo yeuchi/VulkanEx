@@ -15,8 +15,8 @@ See assets directory for sample OFF files. \
 <img width="250" src="https://user-images.githubusercontent.com/1282659/187953243-470c5564-106d-43df-861b-15c4b218a156.jpg">
 <img width="250" src="https://user-images.githubusercontent.com/1282659/187953254-39a2b07b-988c-4258-bbba-dd67c02b67e4.png">
 
-Load cube file. \
-<img width="250" src="https://user-images.githubusercontent.com/1282659/189745556-88746292-d112-4bd4-873a-089d4b9c2456.jpg">
+Load right -> triangle file. \
+<img width="250" src="https://user-images.githubusercontent.com/1282659/189752061-4abca822-a390-45b9-8005-f42fe5160bb6.jpg">
 
 # References
 
