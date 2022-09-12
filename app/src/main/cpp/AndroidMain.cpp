@@ -15,7 +15,8 @@
 #include "VulkanMain.hpp"
 
 int numOfVertices = 0;
-float *listVertices;
+jfloat *listVertices;
+jint *listFaces;
 
 // Process the next main command.
 void handle_cmd(android_app* app, int32_t cmd) {
@@ -64,14 +65,17 @@ Java_com_ctyeung_vulkanex_OffDecoderActivity_loadJNI(JNIEnv *env, jobject thiz,
                                                      jfloatArray vertices,
                                                      jint num_of_faces,
                                                      jintArray faces) {
-    jfloat *floatArray;
-    floatArray = env->GetFloatArrayElements(vertices, NULL);
 
-    jint *intArray;
-    intArray = env->GetIntArrayElements(faces, NULL);
+    listVertices = env->GetFloatArrayElements(vertices, NULL);
+    listFaces = env->GetIntArrayElements(faces, NULL);
 
-    if(floatArray == NULL ||
-        intArray == NULL){
-        return;
+    if( listVertices != NULL &&
+            listFaces != NULL &&
+        num_of_verticies > 0) {
+        numOfVertices = num_of_verticies;
+
+        /*
+         *  TODO Force a reload
+         */
     }
 }
