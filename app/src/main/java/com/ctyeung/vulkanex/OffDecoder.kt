@@ -1,10 +1,8 @@
 package com.ctyeung.vulkanex
 
 import android.content.ContentResolver
-import android.content.Intent
 import android.net.Uri
 import android.util.Log
-import android.util.Log.DEBUG
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -29,10 +27,23 @@ class OffDecoder {
             return _numEdges
         }
 
+    private var meshBound = MeshBound()
     private var _vertices: FloatArray? = null
     val vertices: FloatArray?
         get() {
-            return _vertices
+            _vertices?.let {
+                var scaledVertices = FloatArray(it.size)
+                var i = 0
+                while (i < it.size) {
+                    val scaled = meshBound.scale(it[i], it[i+1], it[i+2])
+                    scaledVertices[i] = scaled[0]
+                    scaledVertices[i+1] = scaled[1]
+                    scaledVertices[i+2] = scaled[2]
+                    i += 3
+                }
+                return scaledVertices
+            }
+            return null
         }
 
     private var _faces = ArrayList<OffFace>()
@@ -152,7 +163,14 @@ class OffDecoder {
                             count++
                         }
                     }
-                    if (count != 3) {
+                    if (count == 3) {
+                        // find mesh bound for post scaling
+                        meshBound.collect(
+                            this[index * 3],
+                            this[index * 3 + 1],
+                            this[index * 3 + 2]
+                        )
+                    } else {
                         throw Exception("invalid vertex count")
                     }
                     index++
