@@ -6,7 +6,7 @@ Android Vulkan exercises
 Created a new Kotlin project that utilizes Google sample project triangle<sup>[0]</sup>. \
 !! No creativity what-so-ever !! Just figuring out configurations \
 Took a few days to read introductory documentation, test samples and watch youtube tutorials. \
-<img width="250" src="https://user-images.githubusercontent.com/1282659/186951575-e7693a8b-c836-42f3-bde5-3cebbdc0f920.jpg">
+<img width="250" src="https://user-images.githubusercontent.com/1282659/189745147-1e47e469-4134-48b5-af1c-11ce5218306b.jpg">
 
 ### OFF Loader (Work in progress)
 
