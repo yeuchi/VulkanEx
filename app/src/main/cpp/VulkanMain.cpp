@@ -353,7 +353,7 @@ bool MapMemoryTypeToIndex(uint32_t typeBits, VkFlags requirements_mask,
 
 // Create our vertex buffer
 bool CreateBuffers(int num_of_verticies,
-                   float vertices[]) {
+                   jfloat *vertices) {
   // -----------------------------------------------
   // Create the triangle vertex buffer
 
