@@ -378,7 +378,7 @@ bool CreateBuffers(int num_of_verticies,
 
   size_t sze = num_of_verticies == 0 ?
           sizeof(vertexDefault) :
-          sizeof(float)*num_of_verticies;
+          sizeof(float)*num_of_verticies*3;
 
   // Create a vertex buffer
   VkBufferCreateInfo createBufferInfo{
@@ -425,7 +425,7 @@ bool CreateBuffers(int num_of_verticies,
     memcpy(data, vertexDefault, sze);
   } else {
     float* ptr = (float*)data;
-    for(int i=0; i<sze; i++){
+    for(int i=0; i<num_of_verticies*3; i++){
       ptr[i] = vertices[i];
     }
   }
@@ -662,7 +662,7 @@ void DeleteGraphicsPipeline(void) {
 //   upon return, vulkan is ready to draw frames
 bool InitVulkan(android_app* app,
                 int num_of_verticies,
-                float *vertices) {
+                jfloat *vertices) {
   androidAppCtx = app;
 
   if (!InitVulkan()) {
