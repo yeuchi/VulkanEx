@@ -14,12 +14,15 @@
 #include <android/log.h>
 #include "VulkanMain.hpp"
 
+int numOfVertices = 0;
+float *listVertices;
+
 // Process the next main command.
 void handle_cmd(android_app* app, int32_t cmd) {
   switch (cmd) {
     case APP_CMD_INIT_WINDOW:
       // The window is being shown, get it ready.
-      InitVulkan(app);
+      InitVulkan(app, numOfVertices, listVertices);
       break;
     case APP_CMD_TERM_WINDOW:
       // The window is being hidden or closed, clean it up.
@@ -52,4 +55,23 @@ void android_main(struct android_app* app) {
       VulkanDrawFrame();
     }
   } while (app->destroyRequested == 0);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_ctyeung_vulkanex_OffDecoderActivity_loadJNI(JNIEnv *env, jobject thiz,
+                                                     jint num_of_verticies,
+                                                     jfloatArray vertices,
+                                                     jint num_of_faces,
+                                                     jintArray faces) {
+    jfloat *floatArray;
+    floatArray = env->GetFloatArrayElements(vertices, NULL);
+
+    jint *intArray;
+    intArray = env->GetIntArrayElements(faces, NULL);
+
+    if(floatArray == NULL ||
+        intArray == NULL){
+        return;
+    }
 }

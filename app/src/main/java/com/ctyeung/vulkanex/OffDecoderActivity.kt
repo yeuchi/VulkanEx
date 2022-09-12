@@ -3,10 +3,12 @@ package com.ctyeung.vulkanex
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import com.google.androidgamesdk.GameActivity
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.lang.Exception
 
 class OffDecoderActivity : GameActivity() {
 
@@ -16,17 +18,17 @@ class OffDecoderActivity : GameActivity() {
         }
     }
 
-    private var off = OffDecoder()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val uri = getOffUri(getIntent())
         uri?.apply {
-            if (off.loadFrom(uri, contentResolver)) {
-                if (off.numVertices > 0) {
-                    off.vertices?.let {
-                        render(it)
+            OffDecoder()?.apply {
+                if (loadFrom(uri, contentResolver)) {
+                    if (numVertices > 0 &&
+                        numFaces > 0
+                    ) {
+                        render(this)
                     }
                 }
             }
@@ -40,9 +42,25 @@ class OffDecoderActivity : GameActivity() {
         return null
     }
 
-    private fun render(intArray: FloatArray) {
-        /*
-         * TODO pass it to ndk
-         */
+    private fun render(off: OffDecoder) {
+        off.apply {
+            try {
+                loadJNI(
+                    numVertices,
+                    vertices ?: throw Exception("Missing vertices"),
+                    numFaces,
+                    faces ?: throw Exception("Missing faces")
+                )
+            } catch (ex: Exception) {
+                Log.e("OffDecoder", ex.toString())
+            }
+        }
     }
+
+    external fun loadJNI(
+        numOfVerticies: Int,
+        vertices: FloatArray,
+        numOfFaces: Int,
+        faces: IntArray
+    )
 }

@@ -39,10 +39,10 @@ class OffDecoder {
     val faces: IntArray?
         get() {
             /*
-             * TODO Tesselation needed
-             *  or some other format of array
+             * TODO Tesselation needed -> 3 edge face triangle
+             *  or some other format of array -- there are N sides to a face.
              */
-            return null
+            return IntArray(3)
         }
 
     val facesNormal: FloatArray?
@@ -191,6 +191,13 @@ class OffDecoder {
                                     ?: throw Exception("invalid face vertex count")
                                 entryCount++
                                 list = IntArray(faceVertexCount)
+
+                                /*
+                                 * TODO More than 3 vertices not supported
+                                 */
+//                                if(faceVertexCount>3) {
+//                                    throw Exception("unsupported polygons - more than 3 vertices")
+//                                }
                             }
 
                             entryCount in 1 until faceVertexCount + 1 -> {

@@ -352,21 +352,40 @@ bool MapMemoryTypeToIndex(uint32_t typeBits, VkFlags requirements_mask,
 }
 
 // Create our vertex buffer
-bool CreateBuffers(void) {
+bool CreateBuffers(int num_of_verticies,
+                   float vertices[]) {
   // -----------------------------------------------
   // Create the triangle vertex buffer
 
-  // Vertex positions
-  const float vertexData[] = {
-      -1.0f, -1.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+// Vertex positions
+//    const float vertexData[] = {
+//            -1.0f, -1.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+//    };
+
+  const float vertexDefault[] = {
+// triangle
+            -1.0f, -1.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+// cube
+//          0.632993f, 0.000000f, 0.154701f,
+//          0.000000f, 0.632993f, 0.154701f,
+//          -0.632993f,   0.000000f,   0.154701f,
+//          0.000000f,  -0.632993f,   0.154701f,
+//          0.632993f,   0.000000f,  -0.154701f,
+//          0.000000f,   0.632993f,  -0.154701f,
+//          -0.632993f,   0.000000f,  -0.154701f,
+//          0.000000f,  -0.632993f,  -0.154701
   };
+
+  size_t sze = num_of_verticies == 0 ?
+          sizeof(vertexDefault) :
+          sizeof(float)*num_of_verticies;
 
   // Create a vertex buffer
   VkBufferCreateInfo createBufferInfo{
       .sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
       .pNext = nullptr,
       .flags = 0,
-      .size = sizeof(vertexData),
+      .size = sze,
       .usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
       .sharingMode = VK_SHARING_MODE_EXCLUSIVE,
       .queueFamilyIndexCount = 1,
@@ -399,7 +418,18 @@ bool CreateBuffers(void) {
   void* data;
   CALL_VK(vkMapMemory(device.device_, deviceMemory, 0, allocInfo.allocationSize,
                       0, &data));
-  memcpy(data, vertexData, sizeof(vertexData));
+  /*
+   * TODO refactor this
+   */
+  if(num_of_verticies == 0) {
+    memcpy(data, vertexDefault, sze);
+  } else {
+    float* ptr = (float*)data;
+    for(int i=0; i<sze; i++){
+      ptr[i] = vertices[i];
+    }
+  }
+
   vkUnmapMemory(device.device_, deviceMemory);
 
   CALL_VK(
@@ -630,7 +660,9 @@ void DeleteGraphicsPipeline(void) {
 // InitVulkan:
 //   Initialize Vulkan Context when android application window is created
 //   upon return, vulkan is ready to draw frames
-bool InitVulkan(android_app* app) {
+bool InitVulkan(android_app* app,
+                int num_of_verticies,
+                float *vertices) {
   androidAppCtx = app;
 
   if (!InitVulkan()) {
@@ -698,7 +730,7 @@ bool InitVulkan(android_app* app) {
   // Create 2 frame buffers.
   CreateFrameBuffers(render.renderPass_);
 
-  CreateBuffers();  // create vertex buffers
+  CreateBuffers(num_of_verticies, vertices);  // create vertex buffers
 
   // Create graphics pipeline
   CreateGraphicsPipeline();
@@ -750,7 +782,8 @@ bool InitVulkan(android_app* app) {
 
     // Now we start a renderpass. Any draw command has to be recorded in a
     // renderpass
-    VkClearValue clearVals{ .color { .float32 {0.0f, 0.34f, 0.90f, 1.0f}}};
+    // colors
+    VkClearValue clearVals{ .color { .float32 {1.0f, 0.34f, 0.90f, 1.0f}}};
     VkRenderPassBeginInfo renderPassBeginInfo{
         .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
         .pNext = nullptr,
