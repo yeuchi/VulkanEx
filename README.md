@@ -19,7 +19,7 @@ Sucessful load right_triangle.off file. \
 <img width="250" src="https://user-images.githubusercontent.com/1282659/189752061-4abca822-a390-45b9-8005-f42fe5160bb6.jpg">
 
 # bash_profile
-Notice some special dependencies for C++ build. \
+Notice some special dependencies for C++ build. 
 
 export ANDROID_HOME=/Users/you/Library/Android/sdk \
 export PATH=$PATH:$ANDROID_HOME/cmake/3.18.1/bin \
