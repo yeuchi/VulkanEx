@@ -807,7 +807,7 @@ bool InitVulkan(android_app *app,
                                &buffers.vertexBuf_, &offset);
 
         // Draw Triangle
-        vkCmdDraw(render.cmdBuffer_[bufferIndex], 3, 1, 0, 0);
+        vkCmdDraw(render.cmdBuffer_[bufferIndex], num_of_verticies, 1, 0, 0);
 
         vkCmdEndRenderPass(render.cmdBuffer_[bufferIndex]);
 
