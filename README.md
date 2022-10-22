@@ -15,10 +15,12 @@ See assets directory for sample OFF files. \
 <img width="250" src="https://user-images.githubusercontent.com/1282659/189754965-c111eda9-f798-4e6b-9f1f-f9670b84a0b1.jpg">
 <img width="250" src="https://user-images.githubusercontent.com/1282659/187953254-39a2b07b-988c-4258-bbba-dd67c02b67e4.png">
 
-Source: star_trek_symbol.off  Rendered: Star Trek like triangles \
+Source: star_trek_symbol.off         
+Rendered: Star Trek like triangles \
 <img width="250" src="https://user-images.githubusercontent.com/1282659/197364080-86cd6f25-6f90-4ccd-b794-580150748c89.png"> <img width="250" src="https://user-images.githubusercontent.com/1282659/197364081-4e417df7-71c6-4964-b1d4-4a4404fdc747.png">
 
-Source: cube_plane.off        Rendered square shaped triangles \
+Source: cube_plane.off               
+Rendered: square shaped triangles \
 <img width="250" src="https://user-images.githubusercontent.com/1282659/197364123-46403dd7-e216-46ce-a2fa-861649a98225.png"> <img width="250" src="https://user-images.githubusercontent.com/1282659/197364126-fb35fd1f-e304-47a0-b8cd-cf0bfedb1e49.png">
 
 # bash_profile
