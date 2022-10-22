@@ -16,7 +16,11 @@ See assets directory for sample OFF files. \
 <img width="250" src="https://user-images.githubusercontent.com/1282659/187953254-39a2b07b-988c-4258-bbba-dd67c02b67e4.png">
 
 Sucessful load right_triangle.off file. \
-<img width="250" src="https://user-images.githubusercontent.com/1282659/189752061-4abca822-a390-45b9-8005-f42fe5160bb6.jpg">
+Source: Star Trek like triangles  Rendered: triangles
+<img width="250" src="https://user-images.githubusercontent.com/1282659/197364080-86cd6f25-6f90-4ccd-b794-580150748c89.png"> <img width="250" src="https://user-images.githubusercontent.com/1282659/197364081-4e417df7-71c6-4964-b1d4-4a4404fdc747.png">
+
+Source: Cube      Rendered square
+<img width="250" src="https://user-images.githubusercontent.com/1282659/197364123-46403dd7-e216-46ce-a2fa-861649a98225.png"> <img width="250" src="https://user-images.githubusercontent.com/1282659/197364126-fb35fd1f-e304-47a0-b8cd-cf0bfedb1e49.png">
 
 # bash_profile
 Notice some special dependencies for C++ build. 
