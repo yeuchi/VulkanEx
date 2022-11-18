@@ -10,7 +10,7 @@ Took a few days to read introductory documentation, test samples and watch youtu
 
 ### OFF Loader 2D Triangles
 
-Load OFF file with 2D triangles (z-axis 0) on phone's document or download directory \
+Load OFF file with 2D triangles (sorry quads and indexing not supported yet) on phone's document or download directory \
 See assets directory for sample OFF files. \
 <img width="250" src="https://user-images.githubusercontent.com/1282659/189754965-c111eda9-f798-4e6b-9f1f-f9670b84a0b1.jpg">
 <img width="250" src="https://user-images.githubusercontent.com/1282659/187953254-39a2b07b-988c-4258-bbba-dd67c02b67e4.png">
