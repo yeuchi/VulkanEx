@@ -49,3 +49,12 @@ https://developer.android.com/games/agdk/game-activity/get-started
 
 2. OFF File Format, Wiki \
 https://en.wikipedia.org/wiki/OFF_(file_format)
+
+# Resources
+
+1. Vulkanised Conference 2023 (Germany) keynote (title: Vulkan for all) by Chris Glover, Software engineer, Google
+https://www.youtube.com/watch?v=Z2bzP6bUC5I
+
+Layering [ ANGLE, dxvk, Zink, vkd3d ]
+
+Memory [ VMA, Vulkan-HPP, Validation Layers ]
