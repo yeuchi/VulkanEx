@@ -38,6 +38,12 @@ export ANDROID_NDK=/Users/ctyeung/Library/Android/sdk/ndk/20.0.5594570 \
 export ANDROID_SDK=${ANDROID_HOME} \
 export JAVA_HOME=/Users/you/Library/Java/JavaVirtualMachines/openjdk-18.0.2.1/Contents/Home \
 
+# Android Studio
+Koala | 2024.1.1 Patch 1 build on July 10, 2024
+
+# Test Device
+Samsung S9 Android 10
+
 # References
 
 0. Google Samples - Android Vulkan Samples Tutorial 5, Github \
